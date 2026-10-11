@@ -8,7 +8,7 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
-    background: #fafafa;
+    background: #fff0f5;
     color: #333;
     padding: 30px 20px 60px;
     max-width: 760px;
@@ -48,6 +48,30 @@
     text-decoration: none;
   }
   .item-link:hover { background: #e8556b; }
+
+  details { cursor: pointer; }
+  summary {
+    font-size: 15px;
+    font-weight: 600;
+    padding: 4px 0;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::after {
+    content: "▶";
+    font-size: 11px;
+    color: #ff6b81;
+    transition: transform 0.2s;
+  }
+  details[open] summary::after {
+    transform: rotate(90deg);
+  }
+  details iframe {
+    margin-top: 12px;
+  }
 </style>
 </head>
 <body>
@@ -62,32 +86,79 @@
   <div class="group">
     <span class="group-label label-cp">奇文（左奇函 × 杨博文）</span>
     <div class="item">
-      <div class="item-title">双人舞台《骨骼谢幕》</div>
-      <a class="item-link" href="#" target="_blank">观看</a>
+      <details>
+        <summary>双人舞台《骨骼谢幕》</summary>
+        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV16o8W6jEwQ&page=1&danmaku=0&high_quality=1"
+          scrolling="no" border="0" frameborder="no" framespacing="0"
+          allowfullscreen="true" width="100%" height="360"></iframe>
+      </details>
+    </div>
+    <div class="item">
+      <details>
+        <summary>第二类我</summary>
+        <p style="font-size:13px;color:#888;margin:10px 0 6px;">舞台</p>
+        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1CNFmzsEjH&page=1&danmaku=0&high_quality=1"
+          scrolling="no" border="0" frameborder="no" framespacing="0"
+          allowfullscreen="true" width="100%" height="360"></iframe>
+        <p style="font-size:13px;color:#888;margin:14px 0 6px;">排练</p>
+        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1GUPDz4EpY&page=1&danmaku=0&high_quality=1"
+          scrolling="no" border="0" frameborder="no" framespacing="0"
+          allowfullscreen="true" width="100%" height="360"></iframe>
+      </details>
     </div>
   </div>
 
   <div class="group">
     <span class="group-label label-cp">桂瑞（张桂源 × 张函瑞）</span>
     <div class="item">
-      <div class="item-title">舞台合作</div>
-      <a class="item-link" href="#" target="_blank">观看</a>
+      <details>
+        <summary>眼鼻嘴（Eyes, Nose, Lips）</summary>
+        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1qAgA6PEZp&page=1&danmaku=0&high_quality=1"
+          scrolling="no" border="0" frameborder="no" framespacing="0"
+          allowfullscreen="true" width="100%" height="360"></iframe>
+      </details>
+    </div>
+    <div class="item">
+      <details>
+        <summary>《太阳与地球》</summary>
+        <p style="font-size:13px;color:#888;margin:10px 0 6px;">舞台</p>
+        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1ANFmzxE8T&page=1&danmaku=0&high_quality=1"
+          scrolling="no" border="0" frameborder="no" framespacing="0"
+          allowfullscreen="true" width="100%" height="360"></iframe>
+        <p style="font-size:13px;color:#888;margin:14px 0 6px;">排练</p>
+        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1zTPfz4EeD&page=1&danmaku=0&high_quality=1"
+          scrolling="no" border="0" frameborder="no" framespacing="0"
+          allowfullscreen="true" width="100%" height="360"></iframe>
+      </details>
     </div>
   </div>
 
   <div class="group">
     <span class="group-label label-cp">橹穆（王橹杰 × 穆祉丞）</span>
     <div class="item">
-      <div class="item-title">双人舞台《来自天堂的魔鬼》</div>
-      <a class="item-link" href="#" target="_blank">观看</a>
+      <details>
+        <summary>《来自天堂的魔鬼》</summary>
+        <p style="font-size:13px;color:#888;margin:10px 0 6px;">舞台</p>
+        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1h1kcBfEuJ&page=1&danmaku=0&high_quality=1"
+          scrolling="no" border="0" frameborder="no" framespacing="0"
+          allowfullscreen="true" width="100%" height="360"></iframe>
+        <p style="font-size:13px;color:#888;margin:14px 0 6px;">排练</p>
+        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1YFZEBEEtW&page=1&danmaku=0&high_quality=1"
+          scrolling="no" border="0" frameborder="no" framespacing="0"
+          allowfullscreen="true" width="100%" height="360"></iframe>
+      </details>
     </div>
   </div>
 
   <div class="group">
     <span class="group-label label-cp">聂罕（聂玮辰 × 陈思罕）</span>
     <div class="item">
-      <div class="item-title">日常互动盘点</div>
-      <a class="item-link" href="#" target="_blank">观看</a>
+      <details>
+        <summary>混剪（BGM：刻在我心底的名字）</summary>
+        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1338368E4E&page=1&danmaku=0&high_quality=1"
+          scrolling="no" border="0" frameborder="no" framespacing="0"
+          allowfullscreen="true" width="100%" height="360"></iframe>
+      </details>
     </div>
   </div>
 </div>
