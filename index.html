@@ -66,9 +66,24 @@
     color: #ff6b81;
     transition: transform 0.2s;
   }
-  details[open] summary::after {
+  details[open] > summary::after {
     transform: rotate(90deg);
   }
+
+  .group > details > summary {
+    display: inline-flex;
+    padding: 3px 10px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    gap: 10px;
+  }
+  .group > details > summary::after {
+    font-size: 9px;
+  }
+  .group > details[open] > summary {
+    margin-bottom: 16px;
+  }
+
   details iframe {
     margin-top: 12px;
   }
@@ -79,12 +94,28 @@
 <h1>四代物料记录</h1>
 <p class="subtitle">奇文 · 桂瑞 · 橹穆 · 聂罕 · 一班/二班 </p>
 
+<!-- ============ 按班级 ============ -->
+<div class="section">
+  <div class="section-title">按班级</div>
+
+  <div class="group">
+    <span class="group-label label-class">一班</span>
+    <p style="font-size:13px;color:#888;margin-bottom:10px;">杨博文 · 张桂源 · 张函瑞 · 官俊臣 · 王橹杰 · 聂玮辰 · 张奕然 · 左奇函</p>
+  </div>
+
+  <div class="group">
+    <span class="group-label label-class">二班</span>
+    <p style="font-size:13px;color:#888;margin-bottom:10px;">陈奕恒 · 陈浚铭 · 陈思罕 · 魏子宸 · 杨涵博 · 王烁然 · 李煜东</p>
+  </div>
+</div>
+
 <!-- ============ 团体 ============ -->
 <div class="section">
   <div class="section-title">团体</div>
 
   <div class="group">
-    <span class="group-label label-class">突围1</span>
+    <details>
+      <summary class="group-label label-class">突围1</summary>
     <div class="item">
       <details>
         <summary>《肆意少年-突围》预告片</summary>
@@ -253,10 +284,12 @@
           allowfullscreen="true" width="100%" height="360"></iframe>
       </details>
     </div>
+    </details>
   </div>
 
   <div class="group">
-    <span class="group-label label-class">突围II</span>
+    <details>
+      <summary class="group-label label-class">突围II</summary>
     <div class="item">
       <details>
         <summary>《突围II破局》EP01 上</summary>
@@ -449,6 +482,7 @@
           allowfullscreen="true" width="100%" height="360"></iframe>
       </details>
     </div>
+    </details>
   </div>
 </div>
 
@@ -533,21 +567,6 @@
           allowfullscreen="true" width="100%" height="360"></iframe>
       </details>
     </div>
-  </div>
-</div>
-
-<!-- ============ 按班级 ============ -->
-<div class="section">
-  <div class="section-title">按班级</div>
-
-  <div class="group">
-    <span class="group-label label-class">一班</span>
-    <p style="font-size:13px;color:#888;margin-bottom:10px;">杨博文 · 张桂源 · 张函瑞 · 官俊臣 · 王橹杰 · 聂玮辰 · 张奕然 · 左奇函</p>
-  </div>
-
-  <div class="group">
-    <span class="group-label label-class">二班</span>
-    <p style="font-size:13px;color:#888;margin-bottom:10px;">陈奕恒 · 陈浚铭 · 陈思罕 · 魏子宸 · 杨涵博 · 王烁然 · 李煜东</p>
   </div>
 </div>
 
