@@ -25,7 +25,19 @@
     filter: drop-shadow(1px 2px 2px rgba(214, 51, 108, 0.25));
     margin-bottom: 10px;
   }
-  .subtitle { color: #999; font-size: 13px; margin-bottom: 28px; }
+  .subtitle { color: #999; font-size: 13px; margin-bottom: 20px; }
+
+  .search-box{
+    width:100%;
+    padding:12px 16px;
+    border:1px solid #ffc2d1;
+    background:#fff;
+    border-radius:12px;
+    font-size:15px;
+    margin-bottom:28px;
+    outline:none;
+  }
+  .search-box:focus{ border-color:#ff6b81; }
 
   .section { margin-bottom: 36px; }
   .section-title {
@@ -33,7 +45,6 @@
     padding-bottom: 8px; border-bottom: 2px solid #eee;
     margin-bottom: 16px;
   }
-
   .group { margin-bottom: 24px; }
   .group-label {
     display: inline-block;
@@ -79,7 +90,6 @@
   details[open] > summary::after {
     transform: rotate(90deg);
   }
-
   .group > details > summary {
     display: inline-flex;
     padding: 3px 10px;
@@ -87,17 +97,9 @@
     margin-bottom: 10px;
     gap: 10px;
   }
-  .group > details > summary::after {
-    font-size: 9px;
-  }
   .group > details[open] > summary {
     margin-bottom: 16px;
   }
-
-  details iframe {
-    margin-top: 12px;
-  }
-
   .bili-jump {
     display: inline-block;
     font-size: 12px;
@@ -111,442 +113,305 @@
     color: #d6336c;
     border-bottom-color: #d6336c;
   }
+  .hide-item{ display:none !important; }
 </style>
 </head>
 <body>
-
 <h1>四代物料记录</h1>
+<p class="subtitle">TF家族四代练习生物料汇总</p>
+<input class="search-box" id="searchInput" placeholder="搜索：标题 / 人名 / CP名" type="text">
 
 <!-- ============ 按班级 ============ -->
-<div class="section">
+<div class="section" data-section-name="按班级">
   <div class="section-title">按班级</div>
-
-  <div class="group">
+  <div class="group" data-group-name="一班">
     <span class="group-label label-class">一班</span>
     <p style="font-size:13px;color:#888;margin-bottom:10px;">杨博文 · 张桂源 · 张函瑞 · 陈奕恒 · 王橹杰 · 陈浚铭 · 陈思罕 · 左奇函</p>
   </div>
-
-  <div class="group">
+  <div class="group" data-group-name="二班">
     <span class="group-label label-class">二班</span>
     <p style="font-size:13px;color:#888;margin-bottom:10px;">官俊臣 · 聂玮辰 · 张奕然 · 魏子宸 · 杨涵博 · 王烁然 · 李煜东</p>
   </div>
 </div>
 
 <!-- ============ 团体 ============ -->
-<div class="section">
+<div class="section" data-section-name="团体">
   <div class="section-title">团体</div>
-
-  <div class="group">
+  <div class="group" data-group-name="突围1">
     <details>
       <summary class="group-label label-class">突围1</summary>
-    <div class="item">
+    <div class="item" data-keyword="肆意少年 突围 预告片">
       <details>
         <summary>《肆意少年-突围》预告片</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1UR3EzmEJs&page=1&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=1" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="肆意少年 突围 先导片">
       <details>
         <summary>《肆意少年-突围》先导片</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1UR3EzmEJs&page=2&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=2" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="肆意少年 突围 EP01">
       <details>
         <summary>《肆意少年-突围》EP01</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1UR3EzmEJs&page=3&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=3" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="肆意夏令营 EP01">
       <details>
         <summary>《肆意夏令营》EP01</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1UR3EzmEJs&page=4&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=4" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="肆意时光簿 EP01">
       <details>
         <summary>《肆意时光簿》EP01</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1UR3EzmEJs&page=5&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=5" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="肆意时光簿 EP02">
       <details>
         <summary>《肆意时光簿》EP02</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1UR3EzmEJs&page=6&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=6" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="肆意夏令营 EP02">
       <details>
         <summary>《肆意夏令营》EP02</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1UR3EzmEJs&page=7&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=7" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="肆意少年 突围 EP02">
       <details>
         <summary>《肆意少年-突围》EP02</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1UR3EzmEJs&page=8&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=8" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="肆意时光簿 EP03">
       <details>
         <summary>《肆意时光簿》EP03</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1UR3EzmEJs&page=9&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=9" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="肆意夏令营 EP03">
       <details>
         <summary>《肆意夏令营》EP03</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1UR3EzmEJs&page=10&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=10" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="肆意少年 突围 EP03">
       <details>
         <summary>《肆意少年-突围》EP03</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1UR3EzmEJs&page=11&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=11" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="肆意时光簿 EP04">
       <details>
         <summary>《肆意时光簿》EP04</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1UR3EzmEJs&page=12&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=12" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="肆意夏令营 EP04">
       <details>
         <summary>《肆意夏令营》EP04</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1UR3EzmEJs&page=13&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=13" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="肆意少年 突围 EP04">
       <details>
         <summary>《肆意少年-突围》EP04</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1UR3EzmEJs&page=14&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=14" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="肆意时光簿 EP05">
       <details>
         <summary>《肆意时光簿》EP05</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1UR3EzmEJs&page=15&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=15" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="肆意少年 突围 EP05">
       <details>
         <summary>《肆意少年-突围》EP05</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1UR3EzmEJs&page=16&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=16" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="肆意时光簿 EP06">
       <details>
         <summary>《肆意时光簿》EP06</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1UR3EzmEJs&page=17&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=17" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="肆意夏令营 EP06">
       <details>
         <summary>《肆意夏令营》EP06</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1UR3EzmEJs&page=18&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=18" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="肆意少年 突围 EP06">
       <details>
         <summary>《肆意少年-突围》EP06</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1UR3EzmEJs&page=19&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=19" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="肆意时光簿 EP07">
       <details>
         <summary>《肆意时光簿》EP07</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1UR3EzmEJs&page=20&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=20" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="肆意时光簿 EP08">
       <details>
         <summary>《肆意时光簿》EP08</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1UR3EzmEJs&page=21&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=21" target="_blank">跳转B站 →</a>
       </details>
     </div>
     </details>
   </div>
-
-  <div class="group">
+  <div class="group" data-group-name="突围II">
     <details>
       <summary class="group-label label-class">突围II</summary>
-    <div class="item">
+    <div class="item" data-keyword="突围II破局 EP01上">
       <details>
         <summary>《突围II破局》EP01 上</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1s17p6QEAG&page=1&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=1" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="突围II破局 EP01下">
       <details>
         <summary>《突围II破局》EP01 下</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1s17p6QEAG&page=2&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=2" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="突围II破局 EP01加更">
       <details>
         <summary>《突围II破局》EP01 加更</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1s17p6QEAG&page=3&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=3" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="突围II破局 EP02上">
       <details>
         <summary>《突围II破局》EP02 上</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1s17p6QEAG&page=4&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=4" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="突围II破局 EP02下">
       <details>
         <summary>《突围II破局》EP02 下</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1s17p6QEAG&page=5&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=5" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="突围II破局 EP02加更">
       <details>
         <summary>《突围II破局》EP02 加更</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1s17p6QEAG&page=6&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=6" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="突围II破局 EP03上">
       <details>
         <summary>《突围II破局》EP03 上</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1s17p6QEAG&page=7&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=7" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="突围II破局 EP03下">
       <details>
         <summary>《突围II破局》EP03 下</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1s17p6QEAG&page=8&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=8" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="突围II破局 EP03加更">
       <details>
         <summary>《突围II破局》EP03 加更</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1s17p6QEAG&page=9&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=9" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="突围II破局 EP04上">
       <details>
         <summary>《突围II破局》EP04 上</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1s17p6QEAG&page=10&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=10" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="突围II破局 EP04下">
       <details>
         <summary>《突围II破局》EP04 下</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1s17p6QEAG&page=11&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=11" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="突围II破局 EP04加更">
       <details>
         <summary>《突围II破局》EP04 加更</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1s17p6QEAG&page=12&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=12" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="突围II破局 EP05上">
       <details>
         <summary>《突围II破局》EP05 上</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1s17p6QEAG&page=13&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=13" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="突围II破局 EP05下">
       <details>
         <summary>《突围II破局》EP05 下</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1s17p6QEAG&page=14&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=14" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="突围II破局 EP05加更">
       <details>
         <summary>《突围II破局》EP05 加更</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1s17p6QEAG&page=15&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=15" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="突围II破局 EP06上">
       <details>
         <summary>《突围II破局》EP06 上</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1s17p6QEAG&page=16&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=16" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="突围II破局 EP06下">
       <details>
         <summary>《突围II破局》EP06 下</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1s17p6QEAG&page=17&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=17" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="突围II破局 EP06加更">
       <details>
         <summary>《突围II破局》EP06 加更</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1s17p6QEAG&page=18&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=18" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="突围II破局 EP07上">
       <details>
         <summary>《突围II破局》EP07 上</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1s17p6QEAG&page=19&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=19" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="突围II破局 EP07下">
       <details>
         <summary>《突围II破局》EP07 下</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1s17p6QEAG&page=20&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=20" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="突围II破局 EP07加更">
       <details>
         <summary>《突围II破局》EP07 加更</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1s17p6QEAG&page=21&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=21" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="突围II破局 EP08上">
       <details>
         <summary>《突围II破局》EP08 上</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1s17p6QEAG&page=22&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=22" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="突围II破局 EP08下">
       <details>
         <summary>《突围II破局》EP08 下</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1s17p6QEAG&page=23&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=23" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="突围II破局 EP08加更">
       <details>
         <summary>《突围II破局》EP08 加更</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1s17p6QEAG&page=24&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=24" target="_blank">跳转B站 →</a>
       </details>
     </div>
@@ -555,92 +420,61 @@
 </div>
 
 <!-- ============ 按CP ============ -->
-<div class="section">
+<div class="section" data-section-name="按CP">
   <div class="section-title">按 CP</div>
-
-  <div class="group">
+  <div class="group" data-group-name="奇文 左奇函 杨博文">
     <span class="group-label label-cp">奇文（左奇函 × 杨博文）</span>
-    <div class="item">
+    <div class="item" data-keyword="奇文 骨骼谢幕">
       <details>
         <summary>双人舞台《骨骼谢幕》</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV16o8W6jEwQ&page=1&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV16o8W6jEwQ" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="奇文 第二类我">
       <details>
         <summary>第二类我</summary>
         <p style="font-size:13px;color:#888;margin:10px 0 6px;">舞台</p>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1CNFmzsEjH&page=1&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1CNFmzsEjH" target="_blank">跳转B站 →</a>
         <p style="font-size:13px;color:#888;margin:14px 0 6px;">排练</p>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1GUPDz4EpY&page=1&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1GUPDz4EpY" target="_blank">跳转B站 →</a>
       </details>
     </div>
   </div>
-
-  <div class="group">
+  <div class="group" data-group-name="桂瑞 张桂源 张函瑞">
     <span class="group-label label-cp">桂瑞（张桂源 × 张函瑞）</span>
-    <div class="item">
+    <div class="item" data-keyword="桂瑞 眼鼻嘴">
       <details>
         <summary>眼鼻嘴（Eyes, Nose, Lips）</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1qAgA6PEZp&page=1&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1qAgA6PEZp" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item">
+    <div class="item" data-keyword="桂瑞 太阳与地球">
       <details>
         <summary>《太阳与地球》</summary>
         <p style="font-size:13px;color:#888;margin:10px 0 6px;">舞台</p>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1ANFmzxE8T&page=1&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1ANFmzxE8T" target="_blank">跳转B站 →</a>
         <p style="font-size:13px;color:#888;margin:14px 0 6px;">排练</p>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1zTPfz4EeD&page=1&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1zTPfz4EeD" target="_blank">跳转B站 →</a>
       </details>
     </div>
   </div>
-
-  <div class="group">
+  <div class="group" data-group-name="橹穆 王橹杰 穆祉丞">
     <span class="group-label label-cp">橹穆（王橹杰 × 穆祉丞）</span>
-    <div class="item">
+    <div class="item" data-keyword="橹穆 来自天堂的魔鬼">
       <details>
         <summary>《来自天堂的魔鬼》</summary>
         <p style="font-size:13px;color:#888;margin:10px 0 6px;">舞台</p>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1h1kcBfEuJ&page=1&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1h1kcBfEuJ" target="_blank">跳转B站 →</a>
         <p style="font-size:13px;color:#888;margin:14px 0 6px;">排练</p>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1YFZEBEEtW&page=1&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1YFZEBEEtW" target="_blank">跳转B站 →</a>
       </details>
     </div>
   </div>
-
-  <div class="group">
+  <div class="group" data-group-name="聂罕 聂玮辰 陈思罕">
     <span class="group-label label-cp">聂罕（聂玮辰 × 陈思罕）</span>
-    <div class="item">
+    <div class="item" data-keyword="聂罕 刻在我心底的名字">
       <details>
         <summary>混剪（BGM：刻在我心底的名字）</summary>
-        <iframe src="https://bilibili.com/blackboard/html5mobileplayer.html?bvid=BV1338368E4E&page=1&danmaku=0&high_quality=1"
-          scrolling="no" border="0" frameborder="no" framespacing="0"
-          allowfullscreen="true" width="100%" height="360"></iframe>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1338368E4E" target="_blank">跳转B站 →</a>
       </details>
     </div>
@@ -648,74 +482,74 @@
 </div>
 
 <!-- ============ 按个人 ============ -->
-<div class="section">
+<div class="section" data-section-name="按个人">
   <div class="section-title">按个人</div>
-
-  <div class="group">
+  <div class="group" data-group-name="左奇函">
     <span class="group-label label-person">左奇函</span>
-    <div class="item">
-      <div class="item-title">个人物料</div>
-      <a class="item-link" href="#" target="_blank">观看</a>
-    </div>
   </div>
-
-  <div class="group">
+  <div class="group" data-group-name="杨博文">
     <span class="group-label label-person">杨博文</span>
-    <div class="item">
-      <div class="item-title">个人物料</div>
-      <a class="item-link" href="#" target="_blank">观看</a>
-    </div>
   </div>
-
-  <div class="group">
+  <div class="group" data-group-name="陈浚铭">
     <span class="group-label label-person">陈浚铭</span>
-    <div class="item">
-      <div class="item-title">个人物料</div>
-      <a class="item-link" href="#" target="_blank">观看</a>
-    </div>
   </div>
-
-  <div class="group">
+  <div class="group" data-group-name="陈奕恒">
     <span class="group-label label-person">陈奕恒</span>
-    <div class="item">
-      <div class="item-title">个人物料</div>
-      <a class="item-link" href="#" target="_blank">观看</a>
-    </div>
   </div>
-
-  <div class="group">
+  <div class="group" data-group-name="张桂源">
     <span class="group-label label-person">张桂源</span>
-    <div class="item">
-      <div class="item-title">个人物料</div>
-      <a class="item-link" href="#" target="_blank">观看</a>
-    </div>
   </div>
-
-  <div class="group">
+  <div class="group" data-group-name="张函瑞">
     <span class="group-label label-person">张函瑞</span>
-    <div class="item">
-      <div class="item-title">个人物料</div>
-      <a class="item-link" href="#" target="_blank">观看</a>
-    </div>
   </div>
-
-  <div class="group">
+  <div class="group" data-group-name="王橹杰">
     <span class="group-label label-person">王橹杰</span>
-    <div class="item">
-      <div class="item-title">个人物料</div>
-      <a class="item-link" href="#" target="_blank">观看</a>
-    </div>
   </div>
-
-  <div class="group">
+  <div class="group" data-group-name="陈思罕">
     <span class="group-label label-person">陈思罕</span>
-    <div class="item">
-      <div class="item-title">个人物料</div>
-      <a class="item-link" href="#" target="_blank">观看</a>
-    </div>
   </div>
-
+  <div class="group" data-group-name="官俊臣">
+    <span class="group-label label-person">官俊臣</span>
+  </div>
+  <div class="group" data-group-name="聂玮辰">
+    <span class="group-label label-person">聂玮辰</span>
+  </div>
+  <div class="group" data-group-name="张奕然">
+    <span class="group-label label-person">张奕然</span>
+  </div>
+  <div class="group" data-group-name="魏子宸">
+    <span class="group-label label-person">魏子宸</span>
+  </div>
+  <div class="group" data-group-name="杨涵博">
+    <span class="group-label label-person">杨涵博</span>
+  </div>
+  <div class="group" data-group-name="王烁然">
+    <span class="group-label label-person">王烁然</span>
+  </div>
+  <div class="group" data-group-name="李煜东">
+    <span class="group-label label-person">李煜东</span>
+  </div>
 </div>
 
+<script>
+const searchInput = document.getElementById('searchInput');
+const items = document.querySelectorAll('.item');
+
+searchInput.addEventListener('input', ()=>{
+  const keyword = searchInput.value.trim().toLowerCase();
+  if(!keyword){
+    items.forEach(el=>el.classList.remove('hide-item'));
+    return;
+  }
+  items.forEach(el=>{
+    const text = (el.dataset.keyword + el.innerText).toLowerCase();
+    if(text.includes(keyword)){
+      el.classList.remove('hide-item');
+    }else{
+      el.classList.add('hide-item');
+    }
+  })
+})
+</script>
 </body>
 </html>
