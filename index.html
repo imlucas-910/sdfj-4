@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>四代物料记录</title>
+<title>时代峰峻四代</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
   body {
     font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
     background: #fff0f5;
@@ -13,7 +14,19 @@
     padding: 30px 20px 60px;
     max-width: 760px;
     margin: 0 auto;
+    position: relative;
+    z-index: 1;
   }
+  #particle-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .content { position: relative; z-index: 1; }
   h1 {
     font-size: 32px;
     font-weight: 800;
@@ -25,19 +38,7 @@
     filter: drop-shadow(1px 2px 2px rgba(214, 51, 108, 0.25));
     margin-bottom: 10px;
   }
-  .subtitle { color: #999; font-size: 13px; margin-bottom: 20px; }
-
-  .search-box{
-    width:100%;
-    padding:12px 16px;
-    border:1px solid #ffc2d1;
-    background:#fff;
-    border-radius:12px;
-    font-size:15px;
-    margin-bottom:28px;
-    outline:none;
-  }
-  .search-box:focus{ border-color:#ff6b81; }
+  .subtitle { color: #999; font-size: 13px; margin-bottom: 28px; line-height: 1.8; }
 
   .section { margin-bottom: 36px; }
   .section-title {
@@ -52,23 +53,15 @@
     padding: 3px 10px; border-radius: 12px;
     margin-bottom: 10px;
   }
-  .label-cp { background: #ffe8ef; color: #d6336c; }
   .label-class { background: #e8f0ff; color: #3b5bdb; }
-  .label-person { background: #eef7ee; color: #2b8a3e; }
 
   .item {
-    background: #fff; border-radius: 10px;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(4px);
+    border-radius: 10px;
     padding: 14px 16px; margin-bottom: 10px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.05);
   }
-  .item-title { font-size: 15px; font-weight: 600; margin-bottom: 5px; }
-  .item-link {
-    display: inline-block; font-size: 12px;
-    color: #fff; background: #ff6b81;
-    padding: 4px 12px; border-radius: 14px;
-    text-decoration: none;
-  }
-  .item-link:hover { background: #e8556b; }
 
   details { cursor: pointer; }
   summary {
@@ -87,9 +80,7 @@
     color: #ff6b81;
     transition: transform 0.2s;
   }
-  details[open] > summary::after {
-    transform: rotate(90deg);
-  }
+  details[open] > summary::after { transform: rotate(90deg); }
   .group > details > summary {
     display: inline-flex;
     padding: 3px 10px;
@@ -97,9 +88,7 @@
     margin-bottom: 10px;
     gap: 10px;
   }
-  .group > details[open] > summary {
-    margin-bottom: 16px;
-  }
+  .group > details[open] > summary { margin-bottom: 16px; }
   .bili-jump {
     display: inline-block;
     font-size: 12px;
@@ -113,154 +102,221 @@
     color: #d6336c;
     border-bottom-color: #d6336c;
   }
-  .hide-item{ display:none !important; }
+
+  /* ===== 趣味小游戏 ===== */
+  .game-box {
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(4px);
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+  .game-btn {
+    display: inline-block;
+    font-size: 13px;
+    color: #fff;
+    background: #ff6b81;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 14px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  .game-btn:hover { background: #e8556b; }
+  .game-msg { font-size: 13px; color: #888; margin-top: 10px; }
+
+  .memory-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    max-width: 420px;
+  }
+  .memory-card {
+    aspect-ratio: 1;
+    background: #ffe8ef;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: #d6336c;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+    text-align: center;
+    padding: 4px;
+    line-height: 1.3;
+  }
+  .memory-card.flipped { background: #ffd6e7; }
+  .memory-card.matched { background: #c3e6cb; color: #2b8a3e; cursor: default; }
+
+  .quiz-question {
+    font-size: 15px;
+    color: #333;
+    margin-bottom: 12px;
+    line-height: 1.6;
+    font-weight: 600;
+  }
+  .quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 400px;
+  }
+  .quiz-option {
+    background: #fff0f5;
+    border: 1px solid #ffc2d1;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .quiz-option:hover { background: #ffe8ef; }
+  .quiz-option.correct { background: #c3e6cb; border-color: #2b8a3e; }
+  .quiz-option.wrong { background: #ffc9c9; border-color: #c92a2a; }
 </style>
 </head>
 <body>
-<h1>四代物料记录</h1>
-<p class="subtitle">TF家族四代练习生物料汇总</p>
-<input class="search-box" id="searchInput" placeholder="搜索：标题 / 人名 / CP名" type="text">
 
-<!-- ============ 按班级 ============ -->
-<div class="section" data-section-name="按班级">
-  <div class="section-title">按班级</div>
-  <div class="group" data-group-name="一班">
-    <span class="group-label label-class">一班</span>
-    <p style="font-size:13px;color:#888;margin-bottom:10px;">杨博文 · 张桂源 · 张函瑞 · 陈奕恒 · 王橹杰 · 陈浚铭 · 陈思罕 · 左奇函</p>
-  </div>
-  <div class="group" data-group-name="二班">
-    <span class="group-label label-class">二班</span>
-    <p style="font-size:13px;color:#888;margin-bottom:10px;">官俊臣 · 聂玮辰 · 张奕然 · 魏子宸 · 杨涵博 · 王烁然 · 李煜东</p>
-  </div>
-</div>
+<canvas id="particle-canvas"></canvas>
+
+<div class="content">
+<h1>时代峰峻四代</h1>
+<p class="subtitle">
+  一班：杨博文 · 张桂源 · 张函瑞 · 陈奕恒 · 王橹杰 · 陈浚铭 · 陈思罕 · 左奇函<br>
+  二班：官俊臣 · 聂玮辰 · 张奕然 · 魏子宸 · 杨涵博 · 王烁然 · 李煜东
+</p>
 
 <!-- ============ 团体 ============ -->
-<div class="section" data-section-name="团体">
+<div class="section">
   <div class="section-title">团体</div>
-  <div class="group" data-group-name="突围1">
+  <div class="group">
     <details>
       <summary class="group-label label-class">突围1</summary>
-    <div class="item" data-keyword="肆意少年 突围 预告片">
+    <div class="item">
       <details>
         <summary>《肆意少年-突围》预告片</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=1" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="肆意少年 突围 先导片">
+    <div class="item">
       <details>
         <summary>《肆意少年-突围》先导片</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=2" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="肆意少年 突围 EP01">
+    <div class="item">
       <details>
         <summary>《肆意少年-突围》EP01</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=3" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="肆意夏令营 EP01">
+    <div class="item">
       <details>
         <summary>《肆意夏令营》EP01</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=4" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="肆意时光簿 EP01">
+    <div class="item">
       <details>
         <summary>《肆意时光簿》EP01</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=5" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="肆意时光簿 EP02">
+    <div class="item">
       <details>
         <summary>《肆意时光簿》EP02</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=6" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="肆意夏令营 EP02">
+    <div class="item">
       <details>
         <summary>《肆意夏令营》EP02</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=7" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="肆意少年 突围 EP02">
+    <div class="item">
       <details>
         <summary>《肆意少年-突围》EP02</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=8" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="肆意时光簿 EP03">
+    <div class="item">
       <details>
         <summary>《肆意时光簿》EP03</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=9" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="肆意夏令营 EP03">
+    <div class="item">
       <details>
         <summary>《肆意夏令营》EP03</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=10" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="肆意少年 突围 EP03">
+    <div class="item">
       <details>
         <summary>《肆意少年-突围》EP03</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=11" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="肆意时光簿 EP04">
+    <div class="item">
       <details>
         <summary>《肆意时光簿》EP04</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=12" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="肆意夏令营 EP04">
+    <div class="item">
       <details>
         <summary>《肆意夏令营》EP04</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=13" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="肆意少年 突围 EP04">
+    <div class="item">
       <details>
         <summary>《肆意少年-突围》EP04</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=14" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="肆意时光簿 EP05">
+    <div class="item">
       <details>
         <summary>《肆意时光簿》EP05</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=15" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="肆意少年 突围 EP05">
+    <div class="item">
       <details>
         <summary>《肆意少年-突围》EP05</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=16" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="肆意时光簿 EP06">
+    <div class="item">
       <details>
         <summary>《肆意时光簿》EP06</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=17" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="肆意夏令营 EP06">
+    <div class="item">
       <details>
         <summary>《肆意夏令营》EP06</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=18" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="肆意少年 突围 EP06">
+    <div class="item">
       <details>
         <summary>《肆意少年-突围》EP06</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=19" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="肆意时光簿 EP07">
+    <div class="item">
       <details>
         <summary>《肆意时光簿》EP07</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=20" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="肆意时光簿 EP08">
+    <div class="item">
       <details>
         <summary>《肆意时光簿》EP08</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1UR3EzmEJs?p=21" target="_blank">跳转B站 →</a>
@@ -268,148 +324,149 @@
     </div>
     </details>
   </div>
-  <div class="group" data-group-name="突围II">
+
+  <div class="group">
     <details>
       <summary class="group-label label-class">突围II</summary>
-    <div class="item" data-keyword="突围II破局 EP01上">
+    <div class="item">
       <details>
         <summary>《突围II破局》EP01 上</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=1" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="突围II破局 EP01下">
+    <div class="item">
       <details>
         <summary>《突围II破局》EP01 下</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=2" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="突围II破局 EP01加更">
+    <div class="item">
       <details>
         <summary>《突围II破局》EP01 加更</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=3" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="突围II破局 EP02上">
+    <div class="item">
       <details>
         <summary>《突围II破局》EP02 上</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=4" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="突围II破局 EP02下">
+    <div class="item">
       <details>
         <summary>《突围II破局》EP02 下</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=5" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="突围II破局 EP02加更">
+    <div class="item">
       <details>
         <summary>《突围II破局》EP02 加更</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=6" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="突围II破局 EP03上">
+    <div class="item">
       <details>
         <summary>《突围II破局》EP03 上</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=7" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="突围II破局 EP03下">
+    <div class="item">
       <details>
         <summary>《突围II破局》EP03 下</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=8" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="突围II破局 EP03加更">
+    <div class="item">
       <details>
         <summary>《突围II破局》EP03 加更</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=9" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="突围II破局 EP04上">
+    <div class="item">
       <details>
         <summary>《突围II破局》EP04 上</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=10" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="突围II破局 EP04下">
+    <div class="item">
       <details>
         <summary>《突围II破局》EP04 下</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=11" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="突围II破局 EP04加更">
+    <div class="item">
       <details>
         <summary>《突围II破局》EP04 加更</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=12" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="突围II破局 EP05上">
+    <div class="item">
       <details>
         <summary>《突围II破局》EP05 上</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=13" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="突围II破局 EP05下">
+    <div class="item">
       <details>
         <summary>《突围II破局》EP05 下</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=14" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="突围II破局 EP05加更">
+    <div class="item">
       <details>
         <summary>《突围II破局》EP05 加更</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=15" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="突围II破局 EP06上">
+    <div class="item">
       <details>
         <summary>《突围II破局》EP06 上</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=16" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="突围II破局 EP06下">
+    <div class="item">
       <details>
         <summary>《突围II破局》EP06 下</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=17" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="突围II破局 EP06加更">
+    <div class="item">
       <details>
         <summary>《突围II破局》EP06 加更</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=18" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="突围II破局 EP07上">
+    <div class="item">
       <details>
         <summary>《突围II破局》EP07 上</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=19" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="突围II破局 EP07下">
+    <div class="item">
       <details>
         <summary>《突围II破局》EP07 下</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=20" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="突围II破局 EP07加更">
+    <div class="item">
       <details>
         <summary>《突围II破局》EP07 加更</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=21" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="突围II破局 EP08上">
+    <div class="item">
       <details>
         <summary>《突围II破局》EP08 上</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=22" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="突围II破局 EP08下">
+    <div class="item">
       <details>
         <summary>《突围II破局》EP08 下</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=23" target="_blank">跳转B站 →</a>
       </details>
     </div>
-    <div class="item" data-keyword="突围II破局 EP08加更">
+    <div class="item">
       <details>
         <summary>《突围II破局》EP08 加更</summary>
         <a class="bili-jump" href="https://www.bilibili.com/video/BV1s17p6QEAG?p=24" target="_blank">跳转B站 →</a>
@@ -419,137 +476,348 @@
   </div>
 </div>
 
-<!-- ============ 按CP ============ -->
-<div class="section" data-section-name="按CP">
-  <div class="section-title">按 CP</div>
-  <div class="group" data-group-name="奇文 左奇函 杨博文">
-    <span class="group-label label-cp">奇文（左奇函 × 杨博文）</span>
-    <div class="item" data-keyword="奇文 骨骼谢幕">
-      <details>
-        <summary>双人舞台《骨骼谢幕》</summary>
-        <a class="bili-jump" href="https://www.bilibili.com/video/BV16o8W6jEwQ" target="_blank">跳转B站 →</a>
-      </details>
-    </div>
-    <div class="item" data-keyword="奇文 第二类我">
-      <details>
-        <summary>第二类我</summary>
-        <p style="font-size:13px;color:#888;margin:10px 0 6px;">舞台</p>
-        <a class="bili-jump" href="https://www.bilibili.com/video/BV1CNFmzsEjH" target="_blank">跳转B站 →</a>
-        <p style="font-size:13px;color:#888;margin:14px 0 6px;">排练</p>
-        <a class="bili-jump" href="https://www.bilibili.com/video/BV1GUPDz4EpY" target="_blank">跳转B站 →</a>
-      </details>
-    </div>
+<!-- ============ 趣味小游戏 ============ -->
+<div class="section">
+  <div class="section-title">趣味小游戏</div>
+
+  <div class="game-box">
+    <details>
+      <summary>🎴 四代外号配对</summary>
+      <div style="margin-top:14px;">
+        <div class="memory-grid" id="memoryGrid"></div>
+        <button class="game-btn" onclick="initMemory()">重新开始</button>
+        <div class="game-msg" id="memoryMsg">翻开两张牌，把同一个人的两个外号配成一对。</div>
+      </div>
+    </details>
   </div>
-  <div class="group" data-group-name="桂瑞 张桂源 张函瑞">
-    <span class="group-label label-cp">桂瑞（张桂源 × 张函瑞）</span>
-    <div class="item" data-keyword="桂瑞 眼鼻嘴">
-      <details>
-        <summary>眼鼻嘴（Eyes, Nose, Lips）</summary>
-        <a class="bili-jump" href="https://www.bilibili.com/video/BV1qAgA6PEZp" target="_blank">跳转B站 →</a>
-      </details>
-    </div>
-    <div class="item" data-keyword="桂瑞 太阳与地球">
-      <details>
-        <summary>《太阳与地球》</summary>
-        <p style="font-size:13px;color:#888;margin:10px 0 6px;">舞台</p>
-        <a class="bili-jump" href="https://www.bilibili.com/video/BV1ANFmzxE8T" target="_blank">跳转B站 →</a>
-        <p style="font-size:13px;color:#888;margin:14px 0 6px;">排练</p>
-        <a class="bili-jump" href="https://www.bilibili.com/video/BV1zTPfz4EeD" target="_blank">跳转B站 →</a>
-      </details>
-    </div>
+
+  <div class="game-box">
+    <details>
+      <summary>🎬 四代名场面猜猜猜</summary>
+      <div style="margin-top:14px;">
+        <div class="quiz-question" id="quizQuestion">点击“下一题”开始。</div>
+        <div class="quiz-options" id="quizOptions"></div>
+        <button class="game-btn" onclick="nextQuiz()">下一题</button>
+        <div class="game-msg" id="quizMsg"></div>
+      </div>
+    </details>
   </div>
-  <div class="group" data-group-name="橹穆 王橹杰 穆祉丞">
-    <span class="group-label label-cp">橹穆（王橹杰 × 穆祉丞）</span>
-    <div class="item" data-keyword="橹穆 来自天堂的魔鬼">
-      <details>
-        <summary>《来自天堂的魔鬼》</summary>
-        <p style="font-size:13px;color:#888;margin:10px 0 6px;">舞台</p>
-        <a class="bili-jump" href="https://www.bilibili.com/video/BV1h1kcBfEuJ" target="_blank">跳转B站 →</a>
-        <p style="font-size:13px;color:#888;margin:14px 0 6px;">排练</p>
-        <a class="bili-jump" href="https://www.bilibili.com/video/BV1YFZEBEEtW" target="_blank">跳转B站 →</a>
-      </details>
-    </div>
-  </div>
-  <div class="group" data-group-name="聂罕 聂玮辰 陈思罕">
-    <span class="group-label label-cp">聂罕（聂玮辰 × 陈思罕）</span>
-    <div class="item" data-keyword="聂罕 刻在我心底的名字">
-      <details>
-        <summary>混剪（BGM：刻在我心底的名字）</summary>
-        <a class="bili-jump" href="https://www.bilibili.com/video/BV1338368E4E" target="_blank">跳转B站 →</a>
-      </details>
-    </div>
+
+  <div class="game-box">
+    <details>
+      <summary>⚡ 四代知识快问快答</summary>
+      <div style="margin-top:14px;">
+        <div class="quiz-question" id="speedQuestion">点击“开始”进入 60 秒快问快答。</div>
+        <div class="quiz-options" id="speedOptions"></div>
+        <button class="game-btn" onclick="startSpeed()">开始（60秒）</button>
+        <div class="game-msg" id="speedMsg"></div>
+      </div>
+    </details>
   </div>
 </div>
-
-<!-- ============ 按个人 ============ -->
-<div class="section" data-section-name="按个人">
-  <div class="section-title">按个人</div>
-  <div class="group" data-group-name="左奇函">
-    <span class="group-label label-person">左奇函</span>
-  </div>
-  <div class="group" data-group-name="杨博文">
-    <span class="group-label label-person">杨博文</span>
-  </div>
-  <div class="group" data-group-name="陈浚铭">
-    <span class="group-label label-person">陈浚铭</span>
-  </div>
-  <div class="group" data-group-name="陈奕恒">
-    <span class="group-label label-person">陈奕恒</span>
-  </div>
-  <div class="group" data-group-name="张桂源">
-    <span class="group-label label-person">张桂源</span>
-  </div>
-  <div class="group" data-group-name="张函瑞">
-    <span class="group-label label-person">张函瑞</span>
-  </div>
-  <div class="group" data-group-name="王橹杰">
-    <span class="group-label label-person">王橹杰</span>
-  </div>
-  <div class="group" data-group-name="陈思罕">
-    <span class="group-label label-person">陈思罕</span>
-  </div>
-  <div class="group" data-group-name="官俊臣">
-    <span class="group-label label-person">官俊臣</span>
-  </div>
-  <div class="group" data-group-name="聂玮辰">
-    <span class="group-label label-person">聂玮辰</span>
-  </div>
-  <div class="group" data-group-name="张奕然">
-    <span class="group-label label-person">张奕然</span>
-  </div>
-  <div class="group" data-group-name="魏子宸">
-    <span class="group-label label-person">魏子宸</span>
-  </div>
-  <div class="group" data-group-name="杨涵博">
-    <span class="group-label label-person">杨涵博</span>
-  </div>
-  <div class="group" data-group-name="王烁然">
-    <span class="group-label label-person">王烁然</span>
-  </div>
-  <div class="group" data-group-name="李煜东">
-    <span class="group-label label-person">李煜东</span>
-  </div>
 </div>
 
 <script>
-const searchInput = document.getElementById('searchInput');
-const items = document.querySelectorAll('.item');
+/* ===== 粒子背景 ===== */
+(function(){
+  const canvas = document.getElementById('particle-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H;
+  let particles = [];
+  const COLORS = ['rgba(255,255,255,0.8)', 'rgba(255,255,255,0.55)', 'rgba(255,214,231,0.7)', 'rgba(255,182,213,0.5)'];
 
-searchInput.addEventListener('input', ()=>{
-  const keyword = searchInput.value.trim().toLowerCase();
-  if(!keyword){
-    items.forEach(el=>el.classList.remove('hide-item'));
-    return;
+  function resize(){
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
   }
-  items.forEach(el=>{
-    const text = (el.dataset.keyword + el.innerText).toLowerCase();
-    if(text.includes(keyword)){
-      el.classList.remove('hide-item');
-    }else{
-      el.classList.add('hide-item');
+  function createParticle(){
+    return {
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: Math.random() * 3 + 1,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.2,
+      alpha: Math.random() * 0.6 + 0.2,
+      color: COLORS[Math.floor(Math.random() * COLORS.length)]
+    };
+  }
+  function init(){
+    particles = [];
+    const count = Math.min(120, Math.floor(W * H / 12000));
+    for(let i = 0; i < count; i++) particles.push(createParticle());
+  }
+  function draw(){
+    ctx.clearRect(0, 0, W, H);
+    for(let p of particles){
+      p.x += p.vx;
+      p.y += p.vy;
+      if(p.x < -10) p.x = W + 10;
+      if(p.x > W + 10) p.x = -10;
+      if(p.y < -10) p.y = H + 10;
+      if(p.y > H + 10) p.y = -10;
+      p.alpha += (Math.random() - 0.5) * 0.01;
+      if(p.alpha < 0.15) p.alpha = 0.15;
+      if(p.alpha > 0.85) p.alpha = 0.85;
+      const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 3);
+      grad.addColorStop(0, p.color);
+      grad.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r * 3, 0, Math.PI * 2);
+      ctx.fill();
     }
-  })
-})
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize', ()=>{ resize(); init(); });
+  resize(); init(); draw();
+})();
+
+/* ===== 游戏1：四代外号配对 ===== */
+const personData = [
+  { name: '左奇函', nicknames: ['左千', '小函', '奇函', '小千'] },
+  { name: '杨博文', nicknames: ['小杨', '杨总', '波纹', '羊', '博文酱'] },
+  { name: '张桂源', nicknames: ['龙眼哥', '龙哥', '桂圆儿', '圆圆', '张桂花'] },
+  { name: '张函瑞', nicknames: ['庄天枢', '糕', '猫猫', '瑞儿', '小瑞'] },
+  { name: '陈浚铭', nicknames: ['小浚铭', '吉米', '米神', '陈太帅', '铭猪'] },
+  { name: '陈奕恒', nicknames: ['哼哼', '小Jo', '英国小洋猪', '洋猪'] },
+  { name: '王橹杰', nicknames: ['脚趾哥', '橹橹', '小杰', '困困'] },
+  { name: '陈思罕', nicknames: ['思罕罕', '优质小狗', '罕罕'] },
+  { name: '官俊臣', nicknames: ['楼泳一', '颠哥', '臣臣'] },
+  { name: '聂玮辰', nicknames: ['聂聂', '小聂', '聂宝', '玮辰'] },
+  { name: '张奕然', nicknames: ['小猪咪', '猪老大', '🐷奕然', '然然'] },
+  { name: '魏子宸', nicknames: ['瓜瓜', '子宸', '小魏'] },
+  { name: '杨涵博', nicknames: ['汉堡', '堡', '涵博'] },
+  { name: '王烁然', nicknames: ['猫子', '烁然', '然然'] },
+  { name: '李煜东', nicknames: ['东不落', '东东', '煜东'] }
+];
+
+let memoryFlipped = [];
+let memoryLocked = false;
+let memoryMatched = 0;
+let memoryTotalPairs = 0;
+
+function initMemory(){
+  const grid = document.getElementById('memoryGrid');
+  const msg = document.getElementById('memoryMsg');
+  grid.innerHTML = '';
+  memoryFlipped = [];
+  memoryLocked = false;
+  memoryMatched = 0;
+
+  const shuffledPeople = [...personData].sort(() => Math.random() - 0.5).slice(0, 8);
+  memoryTotalPairs = shuffledPeople.length;
+
+  let deck = [];
+  shuffledPeople.forEach(p => {
+    const pool = [...p.nicknames].sort(() => Math.random() - 0.5);
+    const picked = pool.slice(0, 2);
+    picked.forEach(nick => deck.push({ name: p.name, nick: nick }));
+  });
+
+  const countByName = {};
+  deck.forEach(d => { countByName[d.name] = (countByName[d.name] || 0) + 1; });
+  Object.keys(countByName).forEach(name => {
+    if(countByName[name] === 1){
+      const item = deck.find(d => d.name === name);
+      deck.push({ name: name, nick: item.nick });
+    }
+  });
+
+  deck.sort(() => Math.random() - 0.5);
+
+  deck.forEach(cardData => {
+    const card = document.createElement('div');
+    card.className = 'memory-card';
+    card.dataset.name = cardData.name;
+    card.dataset.nick = cardData.nick;
+    card.textContent = '';
+    card.addEventListener('click', () => flipMemory(card));
+    grid.appendChild(card);
+  });
+
+  msg.textContent = '翻开两张牌，把同一个人的两个外号配成一对。';
+}
+
+function flipMemory(card){
+  if(memoryLocked) return;
+  if(card.classList.contains('flipped') || card.classList.contains('matched')) return;
+  card.classList.add('flipped');
+  card.textContent = card.dataset.nick;
+  memoryFlipped.push(card);
+  if(memoryFlipped.length === 2){
+    memoryLocked = true;
+    const [a, b] = memoryFlipped;
+    if(a.dataset.name === b.dataset.name){
+      a.classList.add('matched');
+      b.classList.add('matched');
+      a.textContent = a.dataset.name;
+      b.textContent = b.dataset.name;
+      memoryMatched++;
+      memoryFlipped = [];
+      memoryLocked = false;
+      if(memoryMatched === memoryTotalPairs){
+        document.getElementById('memoryMsg').textContent = '🎉 全部配对成功！你认全了这些外号。';
+      }
+    } else {
+      setTimeout(() => {
+        a.classList.remove('flipped');
+        b.classList.remove('flipped');
+        a.textContent = '';
+        b.textContent = '';
+        memoryFlipped = [];
+        memoryLocked = false;
+      }, 800);
+    }
+  }
+}
+
+/* ===== 游戏2：四代名场面猜猜猜 ===== */
+const sceneBank = [
+  { q: '四代考核中，哪位成员表演《卡拉永远OK》时因动作夸张浮夸，让“幻梦都破碎”成为出圈热梗？', options: ['杨博文', '左奇函', '张桂源', '王橹杰'], answer: '杨博文' },
+  { q: '五公现场，哪位成员看到粉丝为他亮起的“蓝粉海”灯牌时憋笑憋到吸鼻子，成为当晚出圈名场面？', options: ['王橹杰', '陈浚铭', '聂玮辰', '杨涵博'], answer: '王橹杰' },
+  { q: '团综《突围》中，哪位成员在抚摸小狗前下意识摘下戒指，被网友称为“骨子里的温柔”？', options: ['陈浚铭', '陈奕恒', '官俊臣', '魏子宸'], answer: '陈浚铭' },
+  { q: '哪位成员本人亲自翻跳了粉丝二创的《瓜瓜的贝斯》，被粉丝称为“双向奔赴”？', options: ['魏子宸', '陈思罕', '李煜东', '张奕然'], answer: '魏子宸' },
+  { q: '五公饭撒环节，哪位成员面对粉丝追问打耳洞，先喊“打神才打”又秒改口“打打打”？', options: ['张奕然', '陈思罕', '王烁然', '聂玮辰'], answer: '张奕然' },
+  { q: '公演互动中，王橹杰比出数字“1”时，旁边哪位成员的反应表情被粉丝截图保存，成为橹穆经典片段？', options: ['穆祉丞', '张函瑞', '左奇函', '杨博文'], answer: '穆祉丞' },
+  { q: '张函瑞的舞台《闭嘴跳舞》中高能动作被粉丝剪成“进行曲”，在抖音话题播放量突破多少？', options: ['10亿次', '1亿次', '5亿次', '20亿次'], answer: '10亿次' },
+  { q: '张奕然一段10秒日常训练舞蹈片段被粉丝称为“张奕然进行曲”，话题播放量突破多少？', options: ['1亿次', '10亿次', '5000万次', '5亿次'], answer: '1亿次' },
+  { q: '台历花絮《Game of Life》中，杨博文比心时，张函瑞比出了什么手势还解释“这是升级版爱心”？', options: ['“六”', '“三”', '“耶”', '“拳头”'], answer: '“六”' },
+  { q: '台历花絮中，哪位成员把台历道具顶在头上扮“天线宝宝”，被工作人员抓包？', options: ['左奇函', '杨博文', '张函瑞', '官俊臣'], answer: '左奇函' },
+  { q: '2025年夏日运动会心率挑战中，王橹杰面对谁时心率飙升到150+，紧张到不敢对视？', options: ['穆祉丞', '张桂源', '左奇函', '杨博文'], answer: '穆祉丞' },
+  { q: '王橹杰在身高提问微博下是唯一回复的人，他报出的真实身高是多少？', options: ['185cm', '180cm', '183cm', '178cm'], answer: '185cm' }
+];
+
+let scenePool = [];
+let currentQuiz = null;
+
+function resetScenePool(){
+  scenePool = [...sceneBank];
+}
+
+function nextQuiz(){
+  if(scenePool.length === 0) resetScenePool();
+  const qEl = document.getElementById('quizQuestion');
+  const optEl = document.getElementById('quizOptions');
+  const msgEl = document.getElementById('quizMsg');
+  msgEl.textContent = '';
+  optEl.innerHTML = '';
+  const idx = Math.floor(Math.random() * scenePool.length);
+  currentQuiz = scenePool.splice(idx, 1)[0];
+  qEl.textContent = currentQuiz.q;
+  currentQuiz.options.forEach(opt => {
+    const div = document.createElement('div');
+    div.className = 'quiz-option';
+    div.textContent = opt;
+    div.addEventListener('click', () => {
+      if(div.classList.contains('correct') || div.classList.contains('wrong')) return;
+      if(opt === currentQuiz.answer){
+        div.classList.add('correct');
+        msgEl.textContent = '✅ 答对了！';
+      } else {
+        div.classList.add('wrong');
+        msgEl.textContent = '❌ 不对，正确答案是：' + currentQuiz.answer;
+        [...optEl.children].forEach(child => {
+          if(child.textContent === currentQuiz.answer) child.classList.add('correct');
+        });
+      }
+    });
+    optEl.appendChild(div);
+  });
+}
+
+/* ===== 游戏3：四代知识快问快答 ===== */
+const speedBank = [
+  { q: '李煜东的粉丝名叫什么？', options: ['煜言家', '小刺猬', '瓜子', '东东糖'], answer: '煜言家' },
+  { q: '“汉堡”是四代哪位成员的外号？', options: ['杨涵博', '王烁然', '陈奕恒', '官俊臣'], answer: '杨涵博' },
+  { q: '“小猪咪”这个外号对应谁？', options: ['张奕然', '陈思罕', '魏子宸', '聂玮辰'], answer: '张奕然' },
+  { q: '左奇函的粉丝名叫什么？', options: ['小刺猬', '奇函糖', '左家军', '千纸鹤'], answer: '小刺猬' },
+  { q: '四代里被称为“犯困家族大家长”的是谁？', options: ['王橹杰', '陈浚铭', '聂玮辰', '杨涵博'], answer: '王橹杰' },
+  { q: '“瓜瓜”是谁的外号？', options: ['魏子宸', '陈思罕', '李煜东', '张奕然'], answer: '魏子宸' },
+  { q: '“幻梦都破碎～”出自谁的名场面？', options: ['杨博文', '左奇函', '张桂源', '王橹杰'], answer: '杨博文' },
+  { q: '四代一班名单里，以下哪位不在其中？', options: ['官俊臣', '杨博文', '张桂源', '左奇函'], answer: '官俊臣' },
+  { q: '“聂聂”是谁的外号？', options: ['聂玮辰', '陈思罕', '张奕然', '魏子宸'], answer: '聂玮辰' },
+  { q: '“哼哼”是谁的外号？', options: ['陈奕恒', '陈浚铭', '王橹杰', '杨涵博'], answer: '陈奕恒' },
+  { q: '“左千”是谁的外号？', options: ['左奇函', '杨博文', '张函瑞', '陈浚铭'], answer: '左奇函' },
+  { q: '四代二班名单里，以下哪位在其中？', options: ['魏子宸', '杨博文', '张桂源', '左奇函'], answer: '魏子宸' },
+  { q: '四代《肆意少年-突围》主要记录什么？', options: ['考核与舞台竞演', '宿舍日常', '外出旅行', '粉丝见面会'], answer: '考核与舞台竞演' },
+  { q: '四代《肆意时光簿》主要内容是？', options: ['日常记录与花絮', '舞台竞演', '考核排名', '线下见面会'], answer: '日常记录与花絮' },
+  { q: '四代《肆意夏令营》通常发生在什么时间段？', options: ['暑期', '寒假', '春季', '秋季'], answer: '暑期' },
+  { q: '四代成员王橹杰的应援色通常称为什么？', options: ['碧色', '粉色', '蓝色', '紫色'], answer: '碧色' },
+  { q: '“东不落”通常指向四代哪位成员？', options: ['李煜东', '王烁然', '官俊臣', '陈奕恒'], answer: '李煜东' },
+  { q: '四代《突围Ⅱ·破局》延续的是哪个系列？', options: ['突围系列', '夏令营系列', '时光簿系列', '初识系列'], answer: '突围系列' },
+  { q: '四代成员张桂源的粉丝名通常叫什么？', options: ['桂圆', '源源', '桂子', '小桂'], answer: '桂圆' },
+  { q: '四代成员张函瑞的粉丝名通常叫什么？', options: ['瑞雪', '函函', '小瑞', '瑞宝'], answer: '瑞雪' },
+  { q: '四代成员杨博文的粉丝名通常叫什么？', options: ['博文', '文文', '小博', '博子'], answer: '博文' },
+  { q: '四代成员陈浚铭的粉丝名通常叫什么？', options: ['铭铭', '浚浚', '小铭', '铭宝'], answer: '铭铭' },
+  { q: '四代成员王橹杰的粉丝名通常叫什么？', options: ['橹橹', '杰杰', '小杰', '橹宝'], answer: '橹橹' },
+  { q: '四代成员陈思罕的粉丝名通常叫什么？', options: ['罕罕', '思思', '小罕', '罕宝'], answer: '罕罕' },
+  { q: '四代成员官俊臣的粉丝名通常叫什么？', options: ['臣臣', '俊俊', '小臣', '臣宝'], answer: '臣臣' }
+];
+
+let speedPool = [];
+let speedTimer = null;
+let speedTime = 60;
+let speedScore = 0;
+let speedCurrent = null;
+
+function resetSpeedPool(){
+  speedPool = [...speedBank];
+}
+
+function startSpeed(){
+  clearInterval(speedTimer);
+  speedScore = 0;
+  speedTime = 60;
+  resetSpeedPool();
+  document.getElementById('speedMsg').textContent = '得分：0　剩余：60 秒';
+  nextSpeedQuestion();
+  speedTimer = setInterval(() => {
+    speedTime--;
+    document.getElementById('speedMsg').textContent = '得分：' + speedScore + '　剩余：' + speedTime + ' 秒';
+    if(speedTime <= 0){
+      clearInterval(speedTimer);
+      document.getElementById('speedMsg').textContent = '⏰ 时间到！最终得分：' + speedScore;
+      document.getElementById('speedQuestion').textContent = '游戏结束，点“开始”再来一局。';
+      document.getElementById('speedOptions').innerHTML = '';
+    }
+  }, 1000);
+}
+
+function nextSpeedQuestion(){
+  if(speedPool.length === 0) resetSpeedPool();
+  const qEl = document.getElementById('speedQuestion');
+  const optEl = document.getElementById('speedOptions');
+  optEl.innerHTML = '';
+  const idx = Math.floor(Math.random() * speedPool.length);
+  speedCurrent = speedPool.splice(idx, 1)[0];
+  qEl.textContent = speedCurrent.q;
+  speedCurrent.options.forEach(opt => {
+    const div = document.createElement('div');
+    div.className = 'quiz-option';
+    div.textContent = opt;
+    div.addEventListener('click', () => {
+      if(div.classList.contains('correct') || div.classList.contains('wrong')) return;
+      if(opt === speedCurrent.answer){
+        div.classList.add('correct');
+        speedScore++;
+      } else {
+        div.classList.add('wrong');
+        [...optEl.children].forEach(child => {
+          if(child.textContent === speedCurrent.answer) child.classList.add('correct');
+        });
+      }
+      document.getElementById('speedMsg').textContent = '得分：' + speedScore + '　剩余：' + speedTime + ' 秒';
+      setTimeout(() => {
+        if(speedTime > 0) nextSpeedQuestion();
+      }, 700);
+    });
+    optEl.appendChild(div);
+  });
+}
+
+resetScenePool();
+document.addEventListener('DOMContentLoaded', initMemory);
 </script>
+
 </body>
 </html>
